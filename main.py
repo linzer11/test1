@@ -54,7 +54,7 @@ selected_mbti = selected_mbti_raw.split()[0]
 # 추천 버튼
 if st.button("🔍 직업 추천 받기!"):
     st.markdown(f"## 🎉 {selected_mbti_raw}에게 어울리는 직업은?")
-     recommended_jobs = job_recommendations.get(selected_mbti, [])
+    recommended_jobs = job_recommendations.get(selected_mbti, [])
     if recommended_jobs:
         for job in recommended_jobs:
             st.markdown(f"- {job}")
@@ -65,5 +65,3 @@ if st.button("🔍 직업 추천 받기!"):
 st.markdown("---")
 st.markdown("<h4 style='text-align: center;'>🌟 세상에 단 하나뿐인 당신만의 진로를 응원합니다! 💖</h4>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center;'>Made with ❤️ by [Your Name]</p>", unsafe_allow_html=True)
-  
-
