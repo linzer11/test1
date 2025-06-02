@@ -2,66 +2,62 @@ import streamlit as st
 import random
 
 st.set_page_config(
-    page_title="🌟 MBTI 진로 추천기",
-    page_icon="🧭",
-    layout="centered",
-    initial_sidebar_state="auto"
+    page_title="🎵 감정 기반 음악 추천기",
+    page_icon="🎧",
+    layout="centered"
 )
 
-# 이모지 스타일 타이틀
-st.markdown(
-    """
-    <h1 style='text-align: center; color: #FF69B4;'>✨ MBTI 기반 진로 추천기 💼</h1>
-    <h4 style='text-align: center;'>당신의 성격 유형에 맞는 찰떡 직업은?! 🔮</h4>
-    """,
-    unsafe_allow_html=True
-)
-
-# MBTI 목록
-mbti_types = [
-    "INTJ 🧠", "INTP 🧪", "ENTJ 🚀", "ENTP 💡",
-    "INFJ 🔮", "INFP 🎨", "ENFJ 🌟", "ENFP 🌈",
-    "ISTJ 📊", "ISFJ 💖", "ESTJ 🏗️", "ESFJ 🤝",
-    "ISTP 🛠️", "ISFP 🎸", "ESTP 🎯", "ESFP 🎤"
-]
-
-# MBTI별 추천 직업 데이터
-job_recommendations = {
-    "INTJ": ["데이터 과학자 📊", "전략 기획자 📈", "AI 연구원 🤖"],
-    "INTP": ["이론 물리학자 🧪", "프로그래머 💻", "UX 디자이너 🎨"],
-    "ENTJ": ["CEO 🧑‍💼", "프로덕트 매니저 📋", "경영 컨설턴트 🕴️"],
-    "ENTP": ["스타트업 창업가 🚀", "마케팅 디렉터 📢", "기획자 🧩"],
-    "INFJ": ["심리상담사 🧘", "작가 ✍️", "교육자 🎓"],
-    "INFP": ["시인 📝", "일러스트레이터 🎨", "사회복지사 🫶"],
-    "ENFJ": ["리더십 트레이너 👩‍🏫", "멘토 🧑‍🤝‍🧑", "공공정책 전문가 🏛️"],
-    "ENFP": ["예술가 🎭", "홍보 전문가 📣", "크리에이터 📹"],
-    "ISTJ": ["회계사 📒", "군인 🎖️", "엔지니어 ⚙️"],
-    "ISFJ": ["간호사 💉", "초등교사 🧑‍🏫", "보건복지사 🩺"],
-    "ESTJ": ["프로젝트 매니저 🧱", "관리직 공무원 🏢", "은행원 💰"],
-    "ESFJ": ["이벤트 플래너 🎊", "HR 매니저 🧑‍💼", "간병인 ❤️"],
-    "ISTP": ["정비사 🔧", "경찰관 🚓", "응급구조사 🚑"],
-    "ISFP": ["플로리스트 💐", "사진작가 📷", "애니메이터 🎞️"],
-    "ESTP": ["세일즈 전문가 💼", "스턴트맨 🤸", "외교관 🌐"],
-    "ESFP": ["연예인 🌟", "패션 디자이너 👗", "방송인 🎙️"]
+# 감정별 추천 노래 데이터
+emotion_music = {
+    "😄 기쁨": [
+        ("Happy - Pharrell Williams", "https://www.youtube.com/watch?v=ZbZSe6N_BXs"),
+        ("Good Time - Owl City & Carly Rae Jepsen", "https://www.youtube.com/watch?v=H7HmzwI67ec"),
+        ("Can't Stop the Feeling! - Justin Timberlake", "https://www.youtube.com/watch?v=ru0K8uYEZWw"),
+    ],
+    "😢 슬픔": [
+        ("Someone Like You - Adele", "https://www.youtube.com/watch?v=hLQl3WQQoQ0"),
+        ("Let Her Go - Passenger", "https://www.youtube.com/watch?v=RBumgq5yVrA"),
+        ("Jealous - Labrinth", "https://www.youtube.com/watch?v=50VWOBi0VFs"),
+    ],
+    "😡 화남": [
+        ("Stronger - Kanye West", "https://www.youtube.com/watch?v=PsO6ZnUZI0g"),
+        ("Believer - Imagine Dragons", "https://www.youtube.com/watch?v=7wtfhZwyrcc"),
+        ("Heavy is the crown - Linkin Park", "https://www.youtube.com/watch?v=ZAt8oxY0GQo"),
+    ],
+    "😌 평온함": [
+        ("Weightless - Marconi Union", "https://www.youtube.com/watch?v=UfcAVejslrU"),
+        ("Bloom - The Paper Kites", "https://www.youtube.com/watch?v=8inJtTG_DuU"),
+        ("River Flows in You - Yiruma", "https://www.youtube.com/watch?v=7maJOI3QMu0"),
+    ],
+    "🤩 설렘": [
+        ("Electric Love - BØRNS", "https://www.youtube.com/watch?v=RYr96YYEaZY"),
+        ("Lover - Taylor Swift", "https://www.youtube.com/watch?v=-BjZmE2gtdo"),
+        ("Love Scenario - iKON", "https://www.youtube.com/watch?v=vecSVX1QYbQ"),
+    ]
 }
 
-# 사용자 선택
-selected_mbti_raw = st.selectbox("🧬 당신의 MBTI를 선택하세요!", mbti_types)
+st.markdown("<h1 style='text-align: center; color: #ff6f61;'>🎧 감정 기반 음악 추천기</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>오늘 당신의 감정은 어떤가요? 기분에 맞는 노래를 추천해드릴게요 🎵</p>", unsafe_allow_html=True)
 
-# MBTI 키만 추출
-selected_mbti = selected_mbti_raw.split()[0]
+# 감정 선택
+emotion = st.selectbox("🧠 지금 느끼는 감정을 선택하세요", list(emotion_music.keys()))
 
 # 추천 버튼
-if st.button("🔍 직업 추천 받기!"):
-    st.markdown(f"## 🎉 {selected_mbti_raw}에게 어울리는 직업은?")
-    recommended_jobs = job_recommendations.get(selected_mbti, [])
-    if recommended_jobs:
-        for job in recommended_jobs:
-            st.markdown(f"- {job}")
-    else:
-        st.warning("죄송합니다. 해당 MBTI에 대한 정보가 아직 없습니다. 🙇")
+if st.button("🔍 노래 추천 받기"):
+    st.markdown(f"<h3>{emotion} 감정에 어울리는 노래 🎶</h3>", unsafe_allow_html=True)
+    tracks = emotion_music.get(emotion, [])
+    random.shuffle(tracks)
+    for title, url in tracks[:3]:
+        st.markdown(f"- [{title}]({url})")
 
-# 꾸미기용 이모지
+# 이모지 배경 효과
+emotion_emoji = {
+    "😄 기쁨": "🌞🌈🎉",
+    "😢 슬픔": "🌧️😔💧",
+    "😡 화남": "🔥💢⚡",
+    "😌 평온함": "🌿🕊️💤",
+    "🤩 설렘": "💘✨🌸"
+}
 st.markdown("---")
-st.markdown("<h4 style='text-align: center;'>🌟 세상에 단 하나뿐인 당신만의 진로를 응원합니다! 💖</h4>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Made with ❤️ by [Your Name]</p>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center;'>{emotion_emoji.get(emotion, '')}</h2>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>음악이 당신의 하루에 작은 힘이 되기를 💖</p>", unsafe_allow_html=True)
