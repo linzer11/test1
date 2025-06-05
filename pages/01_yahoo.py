@@ -57,3 +57,24 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+@st.cache_data(show_spinner=True)
+def fetch_data(tickers):
+    data = yf.download(tickers, start=start_date, end=end_date, group_by='ticker', auto_adjust=True)
+    
+    # 여러 티커가 있을 경우에는 MultiIndex, 하나일 경우에는 단일 컬럼
+    if isinstance(data.columns, pd.MultiIndex):
+        adj_close = pd.DataFrame()
+        for ticker in tickers:
+            try:
+                adj_close[ticker] = data[("Adj Close", ticker)]
+            except KeyError:
+                st.warning(f"⚠️ 데이터 누락: {ticker} 의 데이터를 가져올 수 없습니다.")
+    else:
+        adj_close = pd.DataFrame()
+        try:
+            adj_close[tickers[0]] = data["Adj Close"]
+        except KeyError:
+            st.error("❌ 'Adj Close' 컬럼이 존재하지 않습니다.")
+            return pd.DataFrame()
+    
+    return adj_close
